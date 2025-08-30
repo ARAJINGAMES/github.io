@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>異常報告書 | My Minecraft Addon</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>自作アドオン「ブラッドボーンアドオン」</h1>
+    <nav>
+      <a href="index.html">ホーム</a>
+      <a href="#">アドオン解説</a>
+      <a href="report.html">バグ報告・要望</a>
+    </nav>
+  </header>
+
+  <main class="report-container">
+    <section>
+        <h2>
+        解決済みの内容
+        </h2>
+        <p>既に解決済みの内容を記録しています。
+        </p>
+        <a href="bug-fixed.html#section2">Ver1.3 2025/4/5</a><p></p>
+        <a href="bug-fixed.html#section3">Ver1.4 2025/4/11</a><p></p>
+        <a href="bug-fixed.html#section4">Ver1.5 2025/5/15</a><p></p>
+        <a href="bug-fixed.html#section5">Ver2.0 2025/8/1</a><p></p> 
+    </section>
+    <div id="section2">
+      <h1>Ver1.3 2025/4/5</h1>
+      <p>「狩人の夢」生成時に”使者”がスポーンするように</p>
+    </div>
+    <div id="section3">
+      <h1>Ver1.4 2025/4/11</h1>
+      <p>モブ狩人が倒した分の血の遺志が意図せず手に入っていたため、倒した敵の一定範囲内にいなければ血の遺志が入手できないように修正</p>
+    </div>
+    <div id="section4">
+      <h1>Ver1.5 2025/5/15</h1>
+      <p>仕掛け武器「銃槍」を追加</p>
+      <p>仕掛け武器「トニトルス」を追加</p>
+      <p>仕掛け武器「小アメンの腕」を追加</p>
+      <p>銃器「教会の連装銃」を追加</p>
+      <p>銃器「ルドウイークの長銃」を追加</p>
+      <p>銃器「教会砲」を追加</p>
+      <p>左手武器「木の盾」を追加</p>
+      <p>左手武器「湖の盾」を追加</p>
+      <p>使者から「儀式の血」を購入できるように</p>
+      <p>ボス「血に渇いた獣」を追加</p>
+      <p>ボス「教区長エミーリア」を追加</p>
+      <p>狩人証をオフハンドに持った際、副次効果を発揮するように</p>
+      <p>独自のデスポーンシステムを一時的に削除</p>
+    </div>
+    <div id="section5">
+      <h1>Ver2.0 2025/8/1</h1>
+      <p>ボス「ヘムウィックの魔女」を追加</p>
+      <p>ボス「ヤーナムの影」を追加</p>
+      <p>ボス「白痴の蜘蛛、ロマ」を追加</p>
+      <p>ボス「醜い獣、ルドウイーク」を追加</p>
+      <p>ボス「時計塔のマリア」を追加</p>
+      <p>ボス「学長ウィレーム」を追加</p>
+    </div>
+    <style>
+      #topBtn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: #333;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 1000;
+      }
+    </style>
+
+    <button id="topBtn" onclick="scrollToTop()">↑ Top</button>
+
+    <script>
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    </script>
+  </main>
+</body>
+</html>

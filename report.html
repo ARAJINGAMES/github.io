@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>異常報告書 | My Minecraft Addon</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>自作アドオン「ブラッドボーンアドオン」</h1>
+    <nav>
+      <a href="index.html">ホーム</a>
+      <a href="explain.html">アドオン解説</a>
+      <a href="report.html">バグ報告・要望</a>
+    </nav>
+  </header>
+
+  <main class="report-container">
+    <section>
+        <h2>
+        これまでのバグ報告・要望
+        </h2>
+        <p>
+        今までに報告のあったバグや、要望についてまとめています。
+        </p>
+        <a href="bug-fixed.html">解決済み内容</a><p>
+        <a href="bug-fix.html">未解決の内容</a>
+    </section>
+    <h1 class="gold-title">異常報告書</h1>
+    <p class="intro">この地に潜む異常を、狩人の手で記録せよ。<br>報告は慎重に、詳細に。</p>
+
+    <form action="https://formsubmit.co/reou2020@icloud.com" method="POST">
+      <label for="type">報告の種類:</label>
+      <select id="type" name="type" required>
+        <option value="bug">バグ</option>
+        <option value="request">機能要望</option>
+        <option value="other">その他</option>
+      </select>
+
+      <label for="message">詳細:</label>
+      <textarea id="message" name="message" class="detail-box"></textarea>
+
+      <label for="email">連絡先（任意）:</label>
+      <input type="email" id="email" name="email">
+
+      <button type="submit" class="gold-button">報告する</button>
+    </form>
+  </main>
+</body>
+</html>
