@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>異常報告書 | My Minecraft Addon</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>自作アドオン「ブラッドボーンアドオン」</h1>
+    <nav>
+      <a href="index.html">ホーム</a>
+      <a href="#">アドオン解説</a>
+      <a href="report.html">バグ報告・要望</a>
+    </nav>
+  </header>
+
+  <main class="report-container">
+    <section>
+        <h2>
+        未解決の内容
+        </h2>
+        <p>報告のあったバグ・不具合や、要望の中で、まだ解決出来ていないものをまとめています。</p>
+    </section>
+    <style>
+      #topBtn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: #333;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 1000;
+      }
+    </style>
+
+    <button id="topBtn" onclick="scrollToTop()">↑ Top</button>
+
+    <script>
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    </script>
+  </main>
+</body>
+</html>
