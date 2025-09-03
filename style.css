@@ -63,3 +63,16 @@ footer {
   color: #000000;
   resize: vertical; /* ユーザーが縦方向にサイズ変更できる */
 }
+
+a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #e74c3c;
+}
+
+a:visited {
+  color: #3498db;
+}

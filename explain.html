@@ -16,8 +16,42 @@
   </header>
   <main>
     <div id = "section1">
-        <p>このページでは、ブラッドボーンアドオンの解説を書いていく予定です。時間があれば書き足していきます。</p>
+        <p>このページでは、自分のYouTubeで公開している、アドオン解説に使うサンプルコードを用意しています。</p>
+        <p>各動画、それぞれの下にサンプルコードのリンクがあります。クリックするとダウンロードが開始されます。</p>
+        <h2>動画タイトル目次</h2>
+        <a href="explain.html#section2">二段ジャンプが出来るようにしたい</a><p></p>
     </div>
+    <div id = "section2">
+      <h1>二段ジャンプが出来るようにしたい</h1>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/nUn5nef2EDk?si=63qf8wt8EgGAhtqX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <p>二段ジャンプ サンプルコード</p>
+      <a href="assets/sample_codes/code_double_jump.js" download="samplecode.js">
+        JavaScriptファイルをダウンロード
+      </a>
+
+    </div>
+    <style>
+      #topBtn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: #333;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 1000;
+      }
+    </style>
+
+    <button id="topBtn" onclick="scrollToTop()">↑ Top</button>
+
+    <script>
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    </script>
   </main>
 </body>
 </html>
