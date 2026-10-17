@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>My Minecraft Addon</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>ELDENRING ADDON 開発プロジェクト</h1>
+  </header>
+  <main>
+    <div id = "section1">
+        <p>FROM SOFTWAREのゲーム、ELDENRINGのアドオンを開発するためのプロジェクトページ</p>
+        <h2>アドオンの最新版</h2>
+    </div>
+    <div id = "section2">
+      <h1>装備のシステム構築依頼</h1>
+      <p>装備に関連するシステムのscript構築をお願いしたいです。</p>
+    </div>
+    <div id = "section3">
+    </div>
+    <style>
+      #topBtn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: #333;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 1000;
+      }
+    </style>
+
+    <button id="topBtn" onclick="scrollToTop()">↑ Top</button>
+
+    <script>
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    </script>
+  </main>
+</body>
+</html>
