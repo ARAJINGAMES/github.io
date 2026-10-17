@@ -63,6 +63,19 @@
             list-style: none;
             padding: 0;
         }
+        
+        /* フェードイン用スタイル */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         .weapon-card {
             margin-bottom: 60px;
@@ -176,7 +189,7 @@
         </nav>
 
         <!-- 各武器セクションにギャラリー機能を実装 -->
-        <div id="amygdalan-arm" class="weapon-card">
+        <div id="amygdalan-arm" class="weapon-card reveal">
             <h3>アメンドーズの腕 | Amygdalan Arm</h3>
             <div class="gallery" data-index="0">
                 <div class="gallery__main">
@@ -195,7 +208,7 @@
 
         <hr>
 
-        <div id="beast-claw" class="weapon-card">
+        <div id="beast-claw" class="weapon-card reveal">
             <h3>獣の爪 | Beast Claw</h3>
             <div class="gallery" data-index="0">
                 <div class="gallery__main">
@@ -213,7 +226,7 @@
 
         <hr>
 
-        <div id="beast-cutter" class="weapon-card">
+        <div id="beast-cutter" class="weapon-card reveal">
             <h3>獣肉断ち | Beast Cutter</h3>
             <div class="gallery" data-index="0">
                 <div class="gallery__main">
@@ -231,7 +244,7 @@
 
         <hr>
 
-        <div id="beast-hunting-axe" class="weapon-card">
+        <div id="beast-hunting-axe" class="weapon-card reveal">
             <h3>獣狩りの斧 | Hunter's Axe</h3>
             <div class="gallery" data-index="0">
                 <div class="gallery__main">
@@ -249,7 +262,7 @@
 
         <hr>
 
-        <div id="beasthunter-saif" class="weapon-card">
+        <div id="beasthunter-saif" class="weapon-card reveal">
             <h3>獣狩りの曲刀 | Beasthunter Saif</h3>
             <div class="gallery" data-index="0">
                 <div class="gallery__main">
@@ -295,6 +308,25 @@
             
             selectImage(thumbs[newIndex]);
         }
+        
+        // スクロールフェードイン演出 (Intersection Observer)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
     </script>
 </body>
 </html>
