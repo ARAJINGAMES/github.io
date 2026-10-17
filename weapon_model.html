@@ -16,6 +16,7 @@
             margin: 0;
             padding: 20px;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         .container {
@@ -63,7 +64,7 @@
             list-style: none;
             padding: 0;
         }
-        
+
         /* フェードイン用スタイル */
         .reveal {
             opacity: 0;
@@ -81,7 +82,6 @@
             margin-bottom: 60px;
         }
 
-        /* ギャラリーコンテナ */
         .gallery {
             position: relative;
             margin-top: 20px;
@@ -90,7 +90,6 @@
             gap: 15px;
         }
 
-        /* メイン表示エリア */
         .gallery__main {
             position: relative;
             width: 100%;
@@ -109,7 +108,6 @@
             object-fit: contain;
         }
 
-        /* 左右ボタン */
         .gallery__nav {
             position: absolute;
             top: 50%;
@@ -132,7 +130,6 @@
         .gallery__nav--prev { left: 10px; }
         .gallery__nav--next { right: 10px; }
 
-        /* サムネイル一覧（横並び） */
         .gallery__thumbs {
             display: flex;
             gap: 10px;
@@ -171,6 +168,73 @@
             h3 { font-size: 1.3rem; }
             .gallery__nav { padding: 10px 5px; }
         }
+
+        /* ページの先頭に戻るボタン */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 70px;
+            height: 70px;
+            background-color: #ff8c00;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease, visibility 0.3s;
+            opacity: 0;
+            visibility: hidden;
+            border: none;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: scale(1.15);
+        }
+
+        /* ボタン内の画像レイヤー（背景画像として制御） */
+        .back-to-top__icon {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: opacity 0.3s ease;
+            /* 通常時の画像URLをここに */
+            background-image: url('https://via.placeholder.com/70/ff8c00/ffffff?text=TOP');
+        }
+
+        .back-to-top:hover .back-to-top__icon {
+            /* ホバー時の画像URLをここに */
+            background-image: url('https://via.placeholder.com/70/ffffff/ff8c00?text=GO');
+        }
+
+        /* テキストラベル */
+        .back-to-top__label {
+            position: relative;
+            z-index: 2;
+            color: #fff;
+            font-size: 10px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.2;
+            pointer-events: none;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        .back-to-top:hover .back-to-top__label {
+            color: #ff8c00;
+            text-shadow: none;
+        }
     </style>
 </head>
 <body>
@@ -188,25 +252,22 @@
             </ul>
         </nav>
 
-        <!-- 各武器セクションにギャラリー機能を実装 -->
         <div id="amygdalan-arm" class="weapon-card reveal">
             <h3>アメンドーズの腕 | Amygdalan Arm</h3>
             <div class="gallery" data-index="0">
                 <div class="gallery__main">
                     <button class="gallery__nav gallery__nav--prev" onclick="changeImage(this, -1)">❮</button>
-                    <img src="./assets/weaponmodel/amygdalan_arm.ta.png" alt="アメンドーズの腕">
+                    <img src="./assets/weaponmodel/amygdalan_arm.ta.png" alt="アメンドーズの腕 1">
                     <button class="gallery__nav gallery__nav--next" onclick="changeImage(this, 1)">❯</button>
                 </div>
                 <div class="gallery__thumbs">
-                    <!-- 将来的にここに差分画像を追加 -->
                     <img src="./assets/weaponmodel/amygdalan_arm.ta.png" class="active" onclick="selectImage(this)" alt="差分1">
                     <img src="./assets/weaponmodel/amygdalan_arm.ta.png" onclick="selectImage(this)" alt="差分2">
                     <img src="./assets/weaponmodel/amygdalan_arm.ta.png" onclick="selectImage(this)" alt="差分3">
                 </div>
             </div>
+            <hr>
         </div>
-
-        <hr>
 
         <div id="beast-claw" class="weapon-card reveal">
             <h3>獣の爪 | Beast Claw</h3>
@@ -218,13 +279,16 @@
                 </div>
                 <div class="gallery__thumbs">
                     <img src="./assets/weaponmodel/beast_claw.png" class="active" onclick="selectImage(this)" alt="差分1">
-                    <img src="./assets/weaponmodel/beast_claw.png" onclick="selectImage(this)" alt="差分2">
-                    <img src="./assets/weaponmodel/beast_claw.png" onclick="selectImage(this)" alt="差分3">
                 </div>
             </div>
+            <hr>
         </div>
 
-        <hr>
+        <!-- ページの先頭に戻るボタン -->
+        <button id="backToTop" class="back-to-top" title="ページの先頭に戻る">
+            <div class="back-to-top__icon"></div>
+            <span class="back-to-top__label">ページの<br>先頭に戻る</span>
+        </button>
 
         <div id="beast-cutter" class="weapon-card reveal">
             <h3>獣肉断ち | Beast Cutter</h3>
@@ -236,13 +300,10 @@
                 </div>
                 <div class="gallery__thumbs">
                     <img src="./assets/weaponmodel/beast_cutter.t.png" class="active" onclick="selectImage(this)" alt="差分1">
-                    <img src="./assets/weaponmodel/beast_cutter.t.png" onclick="selectImage(this)" alt="差分2">
-                    <img src="./assets/weaponmodel/beast_cutter.t.png" onclick="selectImage(this)" alt="差分3">
                 </div>
             </div>
+            <hr>
         </div>
-
-        <hr>
 
         <div id="beast-hunting-axe" class="weapon-card reveal">
             <h3>獣狩りの斧 | Hunter's Axe</h3>
@@ -254,13 +315,10 @@
                 </div>
                 <div class="gallery__thumbs">
                     <img src="./assets/weaponmodel/beast_hunting_axe.t.png" class="active" onclick="selectImage(this)" alt="差分1">
-                    <img src="./assets/weaponmodel/beast_hunting_axe.t.png" onclick="selectImage(this)" alt="差分2">
-                    <img src="./assets/weaponmodel/beast_hunting_axe.t.png" onclick="selectImage(this)" alt="差分3">
                 </div>
             </div>
+            <hr>
         </div>
-
-        <hr>
 
         <div id="beasthunter-saif" class="weapon-card reveal">
             <h3>獣狩りの曲刀 | Beasthunter Saif</h3>
@@ -272,8 +330,6 @@
                 </div>
                 <div class="gallery__thumbs">
                     <img src="./assets/weaponmodel/beasthunter_saif.png" class="active" onclick="selectImage(this)" alt="差分1">
-                    <img src="./assets/weaponmodel/beasthunter_saif.png" onclick="selectImage(this)" alt="差分2">
-                    <img src="./assets/weaponmodel/beasthunter_saif.png" onclick="selectImage(this)" alt="差分3">
                 </div>
             </div>
         </div>
@@ -284,37 +340,20 @@
             const gallery = thumb.closest('.gallery');
             const mainImg = gallery.querySelector('.gallery__main img');
             const thumbs = gallery.querySelectorAll('.gallery__thumbs img');
-            
-            // 全サムネイルのactive解除
             thumbs.forEach(t => t.classList.remove('active'));
-            // 選択されたものにactive付与
             thumb.classList.add('active');
-            // メイン画像の差し替え
             mainImg.src = thumb.src;
-            
-            // インデックスの更新
-            const index = Array.from(thumbs).indexOf(thumb);
-            gallery.dataset.index = index;
+            gallery.dataset.index = Array.from(thumbs).indexOf(thumb);
         }
 
         function changeImage(btn, step) {
             const gallery = btn.closest('.gallery');
             const thumbs = gallery.querySelectorAll('.gallery__thumbs img');
+            if (thumbs.length <= 1) return;
             let currentIndex = parseInt(gallery.dataset.index);
-            
-            let newIndex = currentIndex + step;
-            if (newIndex < 0) newIndex = thumbs.length - 1;
-            if (newIndex >= thumbs.length) newIndex = 0;
-            
+            let newIndex = (currentIndex + step + thumbs.length) % thumbs.length;
             selectImage(thumbs[newIndex]);
         }
-        
-        // スクロールフェードイン演出 (Intersection Observer)
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -322,10 +361,22 @@
                     entry.target.classList.add('active');
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
 
-        document.querySelectorAll('.reveal').forEach(el => {
-            observer.observe(el);
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // ページの先頭に戻るボタンの制御
+        const backToTopBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>
 </body>
