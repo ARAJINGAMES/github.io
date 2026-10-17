@@ -3,381 +3,350 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bloodborne 武器カタログ</title>
+    <title>Bloodborne Trick Weapons Catalog</title>
     <style>
-        *, *::before, *::after {
-            box-sizing: border-box;
+        :root {
+            --bg-color: #000000;
+            --text-primary: #ffffff;
+            --accent-color: #ff8c00; /* オレンジ */
+            --border-color: #333333;
+            --card-bg: #0a0a0a;
         }
 
+        * { box-sizing: border-box; }
+
         body {
-            background-color: #000;
-            color: #fff;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             margin: 0;
-            padding: 20px;
+            font-family: "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
             line-height: 1.6;
-            overflow-x: hidden;
+        }
+
+        header {
+            padding: 3rem 1rem;
+            text-align: center;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        h1 {
+            margin: 0;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
         }
 
         .container {
             width: 100%;
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 2rem 1rem;
         }
 
-        h1 {
-            border-bottom: 2px solid #ff8c00;
-            padding-bottom: 10px;
-            text-align: center;
+        /* 目次 */
+        .toc-container {
+            margin-bottom: 3rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
         }
 
-        h2 {
-            color: #ff8c00;
+        .toc-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 0.8rem;
         }
 
-        h3 {
-            color: #ff8c00;
-            text-align: left;
-            font-size: 1.5rem;
-            margin-bottom: 10px;
+        .toc-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 0.5rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
 
-        a {
-            color: #ff8c00;
+        .toc-list a {
+            color: var(--accent-color);
             text-decoration: none;
-            padding: 8px 0;
-            display: inline-block;
+            font-size: 0.9rem;
         }
 
-        a:hover {
+        .toc-list a:hover {
             text-decoration: underline;
         }
 
-        nav {
-            background-color: #111;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 40px;
+        /* 武器リスト */
+        .weapon-section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 2rem;
         }
 
-        nav ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        /* フェードイン用スタイル */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-            will-change: opacity, transform;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .weapon-card {
-            margin-bottom: 60px;
+        .weapon-name-row {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
         }
 
         .gallery {
-            position: relative;
-            margin-top: 20px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 1.5rem;
         }
 
-        .gallery__main {
-            position: relative;
+        .main-display {
             width: 100%;
+            max-width: 800px;
             aspect-ratio: 16 / 9;
-            background-color: #0a0a0a;
-            border-radius: 8px;
+            background: #111;
+            position: relative;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border: 1px solid var(--border-color);
         }
 
-        .gallery__main img {
-            max-width: 100%;
-            max-height: 100%;
+        .main-display img {
+            width: 100%;
+            height: 100%;
             object-fit: contain;
         }
 
-        .gallery__nav {
+        .nav-btn {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.6);
-            color: #ff8c00;
-            border: 1px solid #ff8c00;
-            padding: 15px 10px;
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            border: none;
+            padding: 1rem;
             cursor: pointer;
             font-size: 1.5rem;
-            z-index: 10;
-            border-radius: 4px;
-            transition: background 0.2s;
+            z-index: 2;
         }
 
-        .gallery__nav:hover {
-            background: rgba(255, 140, 0, 0.2);
-        }
+        .nav-btn:hover { background: var(--accent-color); }
+        .prev { left: 0; }
+        .next { right: 0; }
 
-        .gallery__nav--prev { left: 10px; }
-        .gallery__nav--next { right: 10px; }
-
-        .gallery__thumbs {
+        .thumbnail-row {
             display: flex;
-            gap: 10px;
+            gap: 0.5rem;
             overflow-x: auto;
-            padding-bottom: 5px;
-            scrollbar-width: thin;
-            scrollbar-color: #ff8c00 #111;
+            padding-bottom: 0.5rem;
         }
 
-        .gallery__thumbs img {
+        .thumbnail-row img {
             width: 100px;
-            aspect-ratio: 1 / 1;
+            height: 60px;
             object-fit: cover;
             cursor: pointer;
-            border: 2px solid transparent;
-            border-radius: 4px;
             opacity: 0.6;
-            transition: all 0.2s;
-            flex-shrink: 0;
+            border: 1px solid var(--border-color);
+            transition: 0.2s;
         }
 
-        .gallery__thumbs img.active {
-            border-color: #ff8c00;
+        .thumbnail-row img:hover, .thumbnail-row img.active {
             opacity: 1;
+            border-color: var(--accent-color);
+        }
+
+        /* パス情報 */
+        .path-info {
+            margin-top: 1rem;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+        }
+
+        .path-line {
+            padding: 0.2rem 0;
+            overflow-wrap: anywhere;
+        }
+
+        /* ページトップボタン */
+        #back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--accent-color);
+            background-size: cover;
+            background-position: center;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            transition: transform 0.2s;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        #back-to-top:hover {
+            transform: scale(1.15);
+            /* background-image: url('./assets/weaponmodel/hover_icon.png'); */
+        }
+
+        #back-to-top::after {
+            content: "TOP";
+            color: white;
+            font-weight: bold;
+            font-size: 0.7rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-shadow: 1px 1px 2px #000;
         }
 
         hr {
             border: 0;
             height: 1px;
-            background: #444;
-            margin: 40px 0;
+            background: var(--border-color);
+            margin: 4rem 0;
         }
 
         @media (max-width: 768px) {
-            body { padding: 15px; }
-            h3 { font-size: 1.3rem; }
-            .gallery__nav { padding: 10px 5px; }
-        }
-
-        /* ページの先頭に戻るボタン */
-        .back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 70px;
-            height: 70px;
-            background-color: #ff8c00;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease, visibility 0.3s;
-            opacity: 0;
-            visibility: hidden;
-            border: none;
-            padding: 0;
-            overflow: hidden;
-        }
-
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .back-to-top:hover {
-            transform: scale(1.15);
-        }
-
-        /* ボタン内の画像レイヤー（背景画像として制御） */
-        .back-to-top__icon {
-            position: absolute;
-            inset: 0;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            transition: opacity 0.3s ease;
-            /* 通常時の画像URLをここに */
-            background-image: url('https://via.placeholder.com/70/ff8c00/ffffff?text=TOP');
-        }
-
-        .back-to-top:hover .back-to-top__icon {
-            /* ホバー時の画像URLをここに */
-            background-image: url('https://via.placeholder.com/70/ffffff/ff8c00?text=GO');
-        }
-
-        /* テキストラベル */
-        .back-to-top__label {
-            position: relative;
-            z-index: 2;
-            color: #fff;
-            font-size: 10px;
-            font-weight: bold;
-            text-align: center;
-            line-height: 1.2;
-            pointer-events: none;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-        }
-
-        .back-to-top:hover .back-to-top__label {
-            color: #ff8c00;
-            text-shadow: none;
+            .weapon-name-row { font-size: 1.4rem; }
+            .toc-list { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Bloodborne 武器カタログ</h1>
 
-        <nav>
-            <h2>目次</h2>
-            <ul>
-                <li><a href="#amygdalan-arm">アメンドーズの腕 | Amygdalan Arm</a></li>
-                <li><a href="#beast-claw">獣の爪 | Beast Claw</a></li>
-                <li><a href="#beast-cutter">獣肉断ち | Beast Cutter</a></li>
-                <li><a href="#beast-hunting-axe">獣狩りの斧 | Hunter's Axe</a></li>
-                <li><a href="#beasthunter-saif">獣狩りの曲刀 | Beasthunter Saif</a></li>
-            </ul>
-        </nav>
+<header>
+    <h1>Trick Weapons Catalog</h1>
+</header>
 
-        <div id="amygdalan-arm" class="weapon-card reveal">
-            <h3>アメンドーズの腕 | Amygdalan Arm</h3>
-            <div class="gallery" data-index="0">
-                <div class="gallery__main">
-                    <button class="gallery__nav gallery__nav--prev" onclick="changeImage(this, -1)">❮</button>
-                    <img src="./assets/weaponmodel/amygdalan_arm.ta.png" alt="アメンドーズの腕 1">
-                    <button class="gallery__nav gallery__nav--next" onclick="changeImage(this, 1)">❯</button>
+<div class="container">
+    <nav class="toc-container">
+        <div class="toc-title">INDEX</div>
+        <ul class="toc-list" id="tocList"></ul>
+    </nav>
+
+    <div id="weaponContainer"></div>
+</div>
+
+<button id="back-to-top" title="Go to top"></button>
+
+<script>
+    const weapons = [
+        { id: "saw_blade", jp: "鋸鉈", en: "Saw Cleaver" },
+        { id: "saw_spear", jp: "鋸槍", en: "Saw Spear" },
+        { id: "beast_hunting_axe", jp: "獣狩りの斧", en: "Hunter Axe" },
+        { id: "beasthunter_saif", jp: "獣狩りの曲刀", en: "Beasthunter Saif" },
+        { id: "threaded_cane", jp: "仕込み杖", en: "Threaded Cane" },
+        { id: "beast_cutter", jp: "獣肉断ち", en: "Beast Cutter" },
+        { id: "burial_blade", jp: "葬送の刃", en: "Burial Blade" },
+        { id: "blade_of_mercy", jp: "慈悲の刃", en: "Blade of Mercy" },
+        { id: "rifle_spear", jp: "銃槍", en: "Rifle Spear" },
+        { id: "stake_driver", jp: "パイルハンマー", en: "Stake Driver" },
+        { id: "boom_hammer", jp: "爆発金槌", en: "Boom Hammer" },
+        { id: "whirligig_saw", jp: "回転ノコギリ", en: "Whirligig Saw" },
+        { id: "tonitrus", jp: "トニトルス", en: "Tonitrus" },
+        { id: "kirk_hammer", jp: "教会の石槌", en: "Kirkhammer" },
+        { id: "church_pick", jp: "教会の杭", en: "Church Pick" },
+        { id: "ludwiq_the_holy_blade", jp: "ルドウイークの聖剣", en: "Ludwig's Holy Blade" },
+        { id: "holy_moonlight_sword", jp: "月光の聖剣", en: "Holy Moonlight Sword" },
+        { id: "simons_bowblade", jp: "シモンの弓剣", en: "Simon's Bowblade" },
+        { id: "logarius_wheel", jp: "ローゲリウスの車輪", en: "Logarius' Wheel" },
+        { id: "bloodletter", jp: "教会の尖兵", en: "Bloodletter" },
+        { id: "amygdalan_arm", jp: "アメンドーズの腕", en: "Amygdalan Arm" },
+        { id: "beast_claw", jp: "獣の爪", en: "Beast Claw" },
+        { id: "kos_parasite", jp: "ゴースの寄生虫", en: "Kos Parasite" },
+        { id: "reiterpallasch", jp: "レイテルパラッシュ", en: "Reiterpallasch" },
+        { id: "chikage", jp: "千景", en: "Chikage" },
+        { id: "rakuyo", jp: "落葉", en: "Rakuyo" }
+    ];
+
+    const container = document.getElementById('weaponContainer');
+    const tocList = document.getElementById('tocList');
+    const basePath = './assets/weaponmodel/';
+
+    weapons.forEach(w => {
+        const fullName = `${w.jp} | ${w.en}`;
+        
+        // TOC
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="#${w.id}">${fullName}</a>`;
+        tocList.appendChild(li);
+
+        // Section
+        const section = document.createElement('section');
+        section.className = 'weapon-section';
+        section.id = w.id;
+
+        const imgPathNormal = `${basePath}${w.id}.png`;
+        const imgPathTrans = `${basePath}${w.id}.t.png`;
+        const gifPathNormal = `${basePath}${w.id}.gif`;
+        const gifPathTrans = `${basePath}${w.id}.t.gif`;
+
+        section.innerHTML = `
+            <div class="weapon-name-row">${fullName}</div>
+            <div class="gallery" data-weapon="${w.id}">
+                <div class="main-display">
+                    <button class="nav-btn prev">❮</button>
+                    <img src="${imgPathNormal}" alt="${w.en}" class="current-img">
+                    <button class="nav-btn next">❯</button>
                 </div>
-                <div class="gallery__thumbs">
-                    <img src="./assets/weaponmodel/amygdalan_arm.ta.png" class="active" onclick="selectImage(this)" alt="差分1">
-                    <img src="./assets/weaponmodel/amygdalan_arm.ta.png" onclick="selectImage(this)" alt="差分2">
-                    <img src="./assets/weaponmodel/amygdalan_arm.ta.png" onclick="selectImage(this)" alt="差分3">
+                <div class="thumbnail-row">
+                    <img src="${imgPathNormal}" class="thumb active" data-full="${imgPathNormal}">
+                    <img src="${imgPathTrans}" class="thumb" data-full="${imgPathTrans}" onerror="this.style.display='none'">
+                    <img src="${gifPathNormal}" class="thumb" data-full="${gifPathNormal}" onerror="this.style.display='none'">
+                    <img src="${gifPathTrans}" class="thumb" data-full="${gifPathTrans}" onerror="this.style.display='none'">
                 </div>
+            </div>
+            <div class="path-info">
+                <div class="path-line">${w.jp} | ${w.en}</div>
+                <div class="path-line">${imgPathNormal}</div>
             </div>
             <hr>
-        </div>
+        `;
+        container.appendChild(section);
+    });
 
-        <div id="beast-claw" class="weapon-card reveal">
-            <h3>獣の爪 | Beast Claw</h3>
-            <div class="gallery" data-index="0">
-                <div class="gallery__main">
-                    <button class="gallery__nav gallery__nav--prev" onclick="changeImage(this, -1)">❮</button>
-                    <img src="./assets/weaponmodel/beast_claw.png" alt="獣の爪">
-                    <button class="gallery__nav gallery__nav--next" onclick="changeImage(this, 1)">❯</button>
-                </div>
-                <div class="gallery__thumbs">
-                    <img src="./assets/weaponmodel/beast_claw.png" class="active" onclick="selectImage(this)" alt="差分1">
-                </div>
-            </div>
-            <hr>
-        </div>
+    // Gallery Logic
+    document.querySelectorAll('.gallery').forEach(gal => {
+        const mainImg = gal.querySelector('.current-img');
+        const thumbs = gal.querySelectorAll('.thumb');
+        let currentIndex = 0;
 
-        <!-- ページの先頭に戻るボタン -->
-        <button id="backToTop" class="back-to-top" title="ページの先頭に戻る">
-            <div class="back-to-top__icon"></div>
-            <span class="back-to-top__label">ページの<br>先頭に戻る</span>
-        </button>
-
-        <div id="beast-cutter" class="weapon-card reveal">
-            <h3>獣肉断ち | Beast Cutter</h3>
-            <div class="gallery" data-index="0">
-                <div class="gallery__main">
-                    <button class="gallery__nav gallery__nav--prev" onclick="changeImage(this, -1)">❮</button>
-                    <img src="./assets/weaponmodel/beast_cutter.t.png" alt="獣肉断ち">
-                    <button class="gallery__nav gallery__nav--next" onclick="changeImage(this, 1)">❯</button>
-                </div>
-                <div class="gallery__thumbs">
-                    <img src="./assets/weaponmodel/beast_cutter.t.png" class="active" onclick="selectImage(this)" alt="差分1">
-                </div>
-            </div>
-            <hr>
-        </div>
-
-        <div id="beast-hunting-axe" class="weapon-card reveal">
-            <h3>獣狩りの斧 | Hunter's Axe</h3>
-            <div class="gallery" data-index="0">
-                <div class="gallery__main">
-                    <button class="gallery__nav gallery__nav--prev" onclick="changeImage(this, -1)">❮</button>
-                    <img src="./assets/weaponmodel/beast_hunting_axe.t.png" alt="獣狩りの斧">
-                    <button class="gallery__nav gallery__nav--next" onclick="changeImage(this, 1)">❯</button>
-                </div>
-                <div class="gallery__thumbs">
-                    <img src="./assets/weaponmodel/beast_hunting_axe.t.png" class="active" onclick="selectImage(this)" alt="差分1">
-                </div>
-            </div>
-            <hr>
-        </div>
-
-        <div id="beasthunter-saif" class="weapon-card reveal">
-            <h3>獣狩りの曲刀 | Beasthunter Saif</h3>
-            <div class="gallery" data-index="0">
-                <div class="gallery__main">
-                    <button class="gallery__nav gallery__nav--prev" onclick="changeImage(this, -1)">❮</button>
-                    <img src="./assets/weaponmodel/beasthunter_saif.png" alt="獣狩りの曲刀">
-                    <button class="gallery__nav gallery__nav--next" onclick="changeImage(this, 1)">❯</button>
-                </div>
-                <div class="gallery__thumbs">
-                    <img src="./assets/weaponmodel/beasthunter_saif.png" class="active" onclick="selectImage(this)" alt="差分1">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function selectImage(thumb) {
-            const gallery = thumb.closest('.gallery');
-            const mainImg = gallery.querySelector('.gallery__main img');
-            const thumbs = gallery.querySelectorAll('.gallery__thumbs img');
+        const updateGallery = (index) => {
+            const visibleThumbs = Array.from(thumbs).filter(t => t.style.display !== 'none');
+            if (visibleThumbs.length === 0) return;
+            
+            currentIndex = (index + visibleThumbs.length) % visibleThumbs.length;
+            const targetThumb = visibleThumbs[currentIndex];
+            
+            mainImg.src = targetThumb.dataset.full;
             thumbs.forEach(t => t.classList.remove('active'));
-            thumb.classList.add('active');
-            mainImg.src = thumb.src;
-            gallery.dataset.index = Array.from(thumbs).indexOf(thumb);
-        }
+            targetThumb.classList.add('active');
+        };
 
-        function changeImage(btn, step) {
-            const gallery = btn.closest('.gallery');
-            const thumbs = gallery.querySelectorAll('.gallery__thumbs img');
-            if (thumbs.length <= 1) return;
-            let currentIndex = parseInt(gallery.dataset.index);
-            let newIndex = (currentIndex + step + thumbs.length) % thumbs.length;
-            selectImage(thumbs[newIndex]);
-        }
+        gal.querySelector('.next').onclick = () => updateGallery(currentIndex + 1);
+        gal.querySelector('.prev').onclick = () => updateGallery(currentIndex - 1);
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        // ページの先頭に戻るボタンの制御
-        const backToTopBtn = document.getElementById('backToTop');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTopBtn.classList.add('visible');
-            } else {
-                backToTopBtn.classList.remove('visible');
-            }
+        thumbs.forEach((thumb, idx) => {
+            thumb.onclick = () => {
+                const visibleIdx = Array.from(gal.querySelectorAll('.thumb')).filter(t => t.style.display !== 'none').indexOf(thumb);
+                updateGallery(visibleIdx);
+            };
         });
+    });
 
-        backToTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    </script>
+    // Back to top
+    const topBtn = document.getElementById('back-to-top');
+    window.onscroll = () => {
+        topBtn.style.display = (window.scrollY > 300) ? 'block' : 'none';
+    };
+    topBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+</script>
+
 </body>
 </html>
